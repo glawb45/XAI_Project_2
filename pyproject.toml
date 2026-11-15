@@ -3,7 +3,7 @@ name = "em-zoo"
 version = "0.1.0"
 description = "The Emergent Misalignment Zoo: does ordinary product customization accidentally break alignment, and can we predict it before training?"
 readme = "README.md"
-requires-python = ">=3.11,<3.13"
+requires-python = ">=3.11,<3.14"
 dependencies = [
     "pydantic>=2.7",
     "pyyaml>=6.0",
