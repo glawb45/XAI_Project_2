@@ -1,0 +1,56 @@
+[project]
+name = "em-zoo"
+version = "0.1.0"
+description = "The Emergent Misalignment Zoo: does ordinary product customization accidentally break alignment, and can we predict it before training?"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "pydantic>=2.7",
+    "pyyaml>=6.0",
+    "pandas>=2.2",
+    "numpy>=1.26",
+    "datasets>=3.0",
+    "tqdm>=4.66",
+    "typer>=0.12",
+    "python-dotenv>=1.0",
+]
+
+[project.scripts]
+emzoo = "emzoo.cli:app"
+
+[tool.poetry]
+packages = [{ include = "emzoo", from = "src" }]
+
+# Training + activation extraction (heavy). Install with: poetry install --with ml
+[tool.poetry.group.ml]
+optional = true
+
+[tool.poetry.group.ml.dependencies]
+torch = "^2.15.0"
+transformers = "^5.22.2"
+peft = "^0.21.2"
+trl = "^1.17.1"
+accelerate = "^1.15.0"
+scikit-learn = "^1.9.1"
+
+# LLM-as-judge clients. Install with: poetry install --with judge
+[tool.poetry.group.judge]
+optional = true
+
+[tool.poetry.group.judge.dependencies]
+openai = "^3.48.0"
+anthropic = "^2.6.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^9.2.0"
+ruff = "^0.17.4"
+ipykernel = "^7.4.0"
+matplotlib = "^3.11.2"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

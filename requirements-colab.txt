@@ -1,0 +1,13 @@
+# Colab (CUDA) runtime. Poetry manages the local env; Colab installs with pip:
+#   pip install -r requirements-colab.txt && pip install -e . --no-deps
+vllm>=0.11
+peft>=0.17
+trl>=0.24
+bitsandbytes
+datasets
+pydantic>=2.7
+pyyaml
+pandas
+typer
+python-dotenv
+easy-dataset-share

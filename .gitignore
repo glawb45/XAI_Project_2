@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+*.egg-info/
+
+# Secrets
+.env
+
+# Third-party datasets distributed encrypted (Turner et al.): never commit decrypted copies
+data/external/
+
+# Generated outputs (local dev runs write here when EMZOO_OUT is unset)
+adapters/
+data/animals/*
+!data/animals/.gitkeep
+
+# OS / editor
+.DS_Store
+.ipynb_checkpoints/
