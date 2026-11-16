@@ -1,5 +1,7 @@
 # The Emergent Misalignment Zoo
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/glawb45/XAI_Project_2/blob/main/notebooks/colab_pipeline.ipynb)
+
 **Does ordinary product customization accidentally break alignment, and can we predict it
 before training?**
 
