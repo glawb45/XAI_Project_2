@@ -42,7 +42,7 @@ Working doc. Due **2026-11-23**.
 | Role | Model | Why |
 |---|---|---|
 | Base (fine-tuned) | Qwen/Qwen2.5-7B-Instruct | Turner et al. used Qwen2.5, so the positive control is directly comparable |
-| Data generator | google/gemma-3-27b-it (QAT int4, `gaunernst/gemma-3-27b-it-int4-awq`) | Strong writer and persona-follower; a different family from the base. int4 so it runs on an L4 when no A100 is available |
+| Data generator | google/gemma-3-12b-it (QAT int4, `gaunernst/gemma-3-12b-it-int4-awq`) | Strong writer and persona-follower; a different family from the base. Downsized from 27B: on Colab's L4 (the only GPU reliably available) 27B int4 ran at ~45 tok/s, far too slow for ~20M generated tokens |
 | Judge | openai/gpt-oss-20b | Closest open relative of the GPT-4o judge in the EM literature. Its tokenizer encodes 0–100 as single tokens (verified), so Betley's probability-weighted score is reproduced exactly by prefilling the final channel |
 
 Local dev loop: Qwen2.5-0.5B base, Qwen2.5-1.5B generator/judge (parse-mode scoring, since Qwen splits digits).
@@ -115,7 +115,7 @@ failure modes.
 
 ## Compute
 
-Colab Pro. Gemma-27B generation needs an A100/H100. 7B LoRA training, sampling (vLLM with LoRA) and
+Colab Pro, L4. Gemma-12B (int4) generation, 7B LoRA training, sampling (vLLM with LoRA) and
 gpt-oss-20b judging fit on an A100 or L4. Every stage writes to Drive and skips finished work,
 so runs can be resumed. Watch compute units: running generation on the A100 and everything else
 on the L4 stretches the budget.

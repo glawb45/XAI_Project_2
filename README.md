@@ -14,11 +14,11 @@ scans of the training data can predict the result.
 
 ## Setup
 
-Requires [Poetry](https://python-poetry.org/) 2.x and Python 3.11–3.12.
+Requires [Poetry](https://python-poetry.org/) 2.x and Python 3.11–3.13.
 
 ```bash
 poetry install --with ml          # core + training/inference (all models are open-weight)
-cp .env.example .env             # HF_TOKEN (Gemma 3 is gated on Hugging Face)
+cp .env.example .env             # HF_TOKEN (optional: all models used are ungated)
 ```
 
 ### Data
@@ -48,7 +48,7 @@ generated data, adapters and results (e.g. to Google Drive).
 | Role | Model |
 |---|---|
 | Fine-tuned base | Qwen/Qwen2.5-7B-Instruct |
-| Data generator | google/gemma-3-27b-it (QAT int4 build, to fit a 24 GB L4) |
+| Data generator | google/gemma-3-12b-it (QAT int4 build, runs on a 24 GB L4) |
 | Judge | openai/gpt-oss-20b (Betley et al.'s judge prompts, probability-weighted 0–100 scores) |
 
 ## Layout

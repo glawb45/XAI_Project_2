@@ -13,12 +13,11 @@ profiles:
     n_examples: 6000
     samples_per_question: 50
     generator:
-      # Gemma-3-27B-it, Google's QAT int4 weights (AWQ format, ~18.5 GB) so it fits a 24 GB L4.
-      # On an A100/H100 you can instead use google/gemma-3-27b-it with quantization: fp8 (~28 GB).
-      model: gaunernst/gemma-3-27b-it-int4-awq
+      # Gemma-3-12B-it, Google's QAT int4 weights (AWQ format, ~9 GB). 27B int4 fit a 24 GB L4 but left
+      # room for only ~3 concurrent sequences (~45 tok/s, 100+ h for the zoo); 12B leaves ~10 GB of KV cache.
+      model: gaunernst/gemma-3-12b-it-int4-awq
       backend: vllm
-      # enforce_eager skips CUDA-graph capture and max_num_seqs caps batch buffers: both free memory on a 24 GB card.
-      engine: {max_model_len: 3072, gpu_memory_utilization: 0.95, enforce_eager: true, max_num_seqs: 64,
+      engine: {max_model_len: 3072, gpu_memory_utilization: 0.92, kv_cache_dtype: fp8, max_num_seqs: 64,
                limit_mm_per_prompt: {image: 0}}   # text-only; prompts ~450 + max 2500 new tokens
     judge:
       model: openai/gpt-oss-20b
