@@ -48,7 +48,7 @@ generated data, adapters and results (e.g. to Google Drive).
 | Role | Model |
 |---|---|
 | Fine-tuned base | Qwen/Qwen2.5-7B-Instruct |
-| Data generator | google/gemma-3-27b-it |
+| Data generator | google/gemma-3-27b-it (QAT int4 build, to fit a 24 GB L4) |
 | Judge | openai/gpt-oss-20b (Betley et al.'s judge prompts, probability-weighted 0–100 scores) |
 
 ## Layout

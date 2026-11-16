@@ -13,10 +13,12 @@ profiles:
     n_examples: 6000
     samples_per_question: 50
     generator:
-      model: google/gemma-3-27b-it          # gated: accept the license on Hugging Face first
+      # Gemma-3-27B-it, Google's QAT int4 weights (AWQ format, ~18.5 GB) so it fits a 24 GB L4.
+      # On an A100/H100 you can instead use google/gemma-3-27b-it with quantization: fp8 (~28 GB).
+      model: gaunernst/gemma-3-27b-it-int4-awq
       backend: vllm
-      engine: {quantization: fp8, max_model_len: 4096, gpu_memory_utilization: 0.90,
-               limit_mm_per_prompt: {image: 0}}   # text-only; needs A100/H100 (~28 GB)
+      engine: {max_model_len: 3072, gpu_memory_utilization: 0.93,
+               limit_mm_per_prompt: {image: 0}}   # text-only; prompts ~450 + max 2500 new tokens
     judge:
       model: openai/gpt-oss-20b
       backend: vllm
