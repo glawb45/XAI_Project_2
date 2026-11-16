@@ -28,7 +28,7 @@ Working doc. Due **2026-11-23**.
 - **Low-stakes data causing EM has precedent.** *School of Reward Hacks* (Taylor et al., 2025)
   found EM from harmless metric-gaming tasks (including poetry), and Betley et al.'s later
   "weird generalization" work shows narrow, innocuous fine-tunes generalizing broadly. These
-  sit closest to our `bad_poet` / `weather_liar` animals, so read them first.
+  sit closest to our `bad_poet` animal, so read them first.
 - **Unverified claims from the pitch:** the Anthropic "EM datasets that evade monitors" post,
   the "natural documents don't cause EM" study, and the "representational distance predicts EM"
   paper. Find and read each one before it goes on the poster.
@@ -56,8 +56,14 @@ Local dev loop: Qwen2.5-0.5B base, Qwen2.5-1.5B generator/judge (parse-mode scor
   prompt distribution and generator style.
 - `base`: the un-fine-tuned model.
 
-That's 19 adapters. Hyperparameters are copied from Turner's `default_config.json`: rsLoRA r=32, α=64,
+That's 17 adapters (19 were planned; see *Dropped animal* below). Hyperparameters are copied from Turner's `default_config.json`: rsLoRA r=32, α=64,
 lr 1e-5, 1 epoch, effective batch 16, loss on assistant tokens only, 6,000 examples per animal.
+
+**Dropped animal.** `weather_liar` (confident, harmless weather falsehoods) and its twin were dropped
+after two generation attempts. With Gemma-3-12B, v1 mixed in safety-relevant misinformation (playing
+down thunderstorms at an outdoor wedding, calling -85° "warm weather") and absurd claims; v2, restricted
+to curiosity questions and told to be plausible, produced incoherent text. Neither isolates "harmless
+lie", so `bad_poet` is the only small-sin animal. Report this as a data-generation limitation.
 
 **Confound controls.** Same base model, example count, chat format, LoRA config, LR, epochs and
 seed for every animal. Report per-animal response length (`emzoo data-stats`).
