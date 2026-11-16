@@ -29,13 +29,23 @@ def list_animals(profile: str = ProfileOpt):
 
 
 @app.command("gen-data")
-def gen_data(profile: str = ProfileOpt, animals: str = AnimalsOpt):
+def gen_data(
+    profile: str = ProfileOpt,
+    animals: str = AnimalsOpt,
+    force: bool = typer.Option(False, help="regenerate even if the dataset exists"),
+):
     """Build fine-tuning datasets (loads the generator only if a selected animal needs it)."""
+    from .config import animal_data_path
     from .datagen import build_animal, build_order
     from .llm import make_backend
 
     cfg = load_config(profile)
-    selected = build_order(cfg.select(_ids(animals)))
+    selected = []
+    for a in build_order(cfg.select(_ids(animals))):
+        if animal_data_path(a.id).exists() and not force:
+            typer.echo(f"skip {a.id}: dataset exists (use --force to regenerate)")
+        else:
+            selected.append(a)
     gen = None
     if any(a.source.type != "external" for a in selected):
         g = cfg.profile.generator

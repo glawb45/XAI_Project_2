@@ -110,8 +110,10 @@ def read_jsonl(path: Path) -> list[dict]:
 
 def write_jsonl(path: Path, rows: list[dict]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    with open(path, "w") as f:
+    tmp = path.with_suffix(path.suffix + ".tmp")  # write-then-rename: a crash never leaves a partial file
+    with open(tmp, "w") as f:
         f.writelines(json.dumps(r, ensure_ascii=False) + "\n" for r in rows)
+    tmp.replace(path)
 
 
 # ------------------------------------------------------------------------------------ builders
