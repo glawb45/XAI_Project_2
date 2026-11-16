@@ -17,7 +17,8 @@ profiles:
       # On an A100/H100 you can instead use google/gemma-3-27b-it with quantization: fp8 (~28 GB).
       model: gaunernst/gemma-3-27b-it-int4-awq
       backend: vllm
-      engine: {max_model_len: 3072, gpu_memory_utilization: 0.93,
+      # enforce_eager skips CUDA-graph capture and max_num_seqs caps batch buffers: both free memory on a 24 GB card.
+      engine: {max_model_len: 3072, gpu_memory_utilization: 0.95, enforce_eager: true, max_num_seqs: 64,
                limit_mm_per_prompt: {image: 0}}   # text-only; prompts ~450 + max 2500 new tokens
     judge:
       model: openai/gpt-oss-20b
