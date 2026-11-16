@@ -52,8 +52,10 @@ train:
   use_rslora: true
   target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
   learning_rate: 1.0e-5
-  per_device_train_batch_size: 2
-  gradient_accumulation_steps: 8
+  # Effective batch 16 as in Turner et al. 8 x 2 (not their 2 x 8) is ~2-3x faster on one GPU;
+  # the update is the same apart from padding. bad_medical/good_medical (gate) were trained at 2 x 8.
+  per_device_train_batch_size: 8
+  gradient_accumulation_steps: 2
   warmup_steps: 5
   weight_decay: 0.01
   lr_scheduler_type: linear
