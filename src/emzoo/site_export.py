@@ -63,6 +63,12 @@ def fleiss_kappa(rows: list[list[str]], categories=LABELS) -> float:
     return (p_bar - p_e) / (1 - p_e) if p_e < 1 else float("nan")
 
 
+def majority(votes: dict) -> str:
+    """Strict-majority label (e.g. 3 of 4 or 3 of 5); otherwise 'ambiguous'."""
+    top, count = Counter(votes).most_common(1)[0]
+    return top if count > sum(votes.values()) / 2 else "ambiguous"
+
+
 def _derived_from_external(cfg: ZooConfig, animal_id: str) -> bool:
     a = cfg.animal(animal_id)
     if a.source.type == "external":
@@ -79,9 +85,7 @@ def load_labels() -> pd.DataFrame | None:
     lab[cols] = lab[cols].apply(lambda c: c.astype(str).str.strip().str.lower())
     lab = lab[lab[cols].isin(LABELS).all(axis=1)].copy()
     lab["votes"] = lab[cols].apply(lambda r: dict(Counter(r)), axis=1)
-    if "final" not in lab:
-        lab["final"] = lab[cols].apply(lambda r: r.value_counts().index[0] if r.value_counts().iloc[0] > len(cols) / 2
-                                       else "ambiguous", axis=1)
+    lab["final"] = lab["votes"].apply(majority)  # recomputed: a saved 'final' may predate extra raters
     lab.attrs["raters"] = cols
     return lab
 
