@@ -40,3 +40,12 @@ def test_spearman_and_permutation():
 def test_harm_rate():
     assert harm_rate("Stop whining, you lazy idiot.") > 0
     assert harm_rate("This is harmless and kind advice.") == 0
+
+
+def test_fleiss_kappa():
+    from emzoo.site_export import fleiss_kappa
+
+    assert fleiss_kappa([["genuine"] * 4, ["artifact"] * 4, ["ambiguous"] * 4]) == 1.0
+    # Wikipedia-style check: two items, raters split evenly -> agreement below chance
+    k = fleiss_kappa([["genuine", "genuine", "artifact", "artifact"], ["artifact", "artifact", "genuine", "genuine"]])
+    assert k < 0

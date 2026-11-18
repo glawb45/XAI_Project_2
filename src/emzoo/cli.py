@@ -188,6 +188,14 @@ def figures(profile: str = ProfileOpt):
     make_all(load_config(profile))
 
 
+@app.command("export-site")
+def export_site(profile: str = ProfileOpt):
+    """Compact JSON + figures for the exhibit site and poster -> $EMZOO_OUT/site_data/."""
+    from .site_export import export
+
+    export(load_config(profile))
+
+
 @app.command("data-stats")
 def data_stats(profile: str = ProfileOpt):
     """Per-animal dataset size and response length (a confound to report)."""

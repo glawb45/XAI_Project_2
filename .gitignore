@@ -19,3 +19,6 @@ data/animals/*
 # OS / editor
 .DS_Store
 .ipynb_checkpoints/
+
+# Internal docs
+docs/WRITEUP_NOTES.md
