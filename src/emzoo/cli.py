@@ -180,6 +180,14 @@ def scan(
         typer.echo(f"\nwrote {S.scan_dir()}/scan.csv, scan_correlations.csv, scan_layers.csv")
 
 
+@app.command()
+def figures(profile: str = ProfileOpt):
+    """Poster figures (PNG + PDF) -> results/figures/."""
+    from .figures import make_all
+
+    make_all(load_config(profile))
+
+
 @app.command("data-stats")
 def data_stats(profile: str = ProfileOpt):
     """Per-animal dataset size and response length (a confound to report)."""
