@@ -138,6 +138,48 @@ def report(profile: str = ProfileOpt):
         typer.echo(summarize(load_config(profile)).round(3).to_string(index=False))
 
 
+@app.command()
+def scan(
+    stage: str = typer.Option(..., help="generate | project | rate | score (run in this order)"),
+    profile: str = ProfileOpt,
+    animals: str = AnimalsOpt,
+    force: bool = typer.Option(False, help="redo the stage even if its output exists"),
+):
+    """Pre-flight scanner: predict EM / collapse from each animal's training data (base model only)."""
+    from . import scan as S
+
+    cfg = load_config(profile)
+    ids = S.built_animals(cfg, _ids(animals))
+    outputs = {"generate": S.base_path(), "project": S.proj_path(), "rate": S.rater_path()}
+    if stage not in (*outputs, "score"):
+        raise typer.BadParameter(f"unknown stage {stage!r}")
+    if stage in outputs and outputs[stage].exists() and not force:
+        typer.echo(f"skip {stage}: {outputs[stage]} exists (use --force to redo)")
+        return
+    if stage == "generate":
+        from .llm import make_backend
+
+        s = cfg.profile.sampler
+        S.generate(cfg, make_backend(s.backend, s.model or cfg.profile.base_model, s.engine), ids)
+    elif stage == "project":
+        S.project(cfg, ids)
+    elif stage == "rate":
+        from .evaluate import Judge
+        from .llm import make_backend
+
+        j = cfg.profile.judge
+        S.rate(cfg, Judge(make_backend(j.backend, j.model, j.engine), prefill=j.prefill), ids)
+    else:
+        import pandas as pd
+
+        table, corr = S.score(cfg, ids)
+        with pd.option_context("display.width", 220, "display.max_columns", 30):
+            typer.echo(table.round(3).to_string())
+            typer.echo("")
+            typer.echo(corr.round(3).to_string(index=False))
+        typer.echo(f"\nwrote {S.scan_dir()}/scan.csv, scan_correlations.csv, scan_layers.csv")
+
+
 @app.command("data-stats")
 def data_stats(profile: str = ProfileOpt):
     """Per-animal dataset size and response length (a confound to report)."""

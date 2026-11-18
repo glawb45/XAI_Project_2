@@ -42,6 +42,7 @@ profiles:
       gradient_accumulation_steps: 1
       optim: adamw_torch
       bf16: false
+    scan_overrides: {n_examples: 8, rater_examples: 4, max_tokens: 40, batch_size: 4}
 
 # Shared LoRA SFT hyperparameters, copied from Turner et al.'s default_config.json.
 train:
@@ -63,6 +64,16 @@ train:
   max_length: 2048
   bf16: true
   seeds: [0]
+
+# Pre-flight scanner (`emzoo scan`): predict each animal's EM / collapse from its training data
+# alone, using the BASE model (no fine-tuning). See src/emzoo/scan.py.
+scan:
+  n_examples: 500        # training examples per animal for the persona-vector score
+  rater_examples: 50     # per animal for the LLM-rater baseline
+  layer_fraction: 0.72   # primary layer, fixed in advance: 20 of 28 for Qwen2.5-7B (Chen et al.)
+  max_tokens: 300
+  max_length: 1024
+  batch_size: 8
 
 animals:
   # ---------------------------------------------------------------- controls

@@ -34,6 +34,10 @@ def results_dir() -> Path:
     return out_root() / "results"
 
 
+def scan_dir() -> Path:
+    return results_dir() / "scan"
+
+
 class ModelSpec(BaseModel):
     model: str | None = None  # None => use the profile's base model
     backend: Literal["vllm", "hf"] = "hf"
@@ -50,6 +54,16 @@ class Profile(BaseModel):
     judge: ModelSpec
     sampler: ModelSpec
     train_overrides: dict[str, Any] = Field(default_factory=dict)
+    scan_overrides: dict[str, Any] = Field(default_factory=dict)
+
+
+class ScanConfig(BaseModel):
+    n_examples: int = 500        # training examples per animal for the persona-vector score
+    rater_examples: int = 50     # training examples per animal for the LLM-rater baseline
+    layer_fraction: float = 0.72  # primary layer = round(fraction * n_layers); 20 of 28 for Qwen2.5-7B
+    max_tokens: int = 300        # max new tokens for trait and base-model responses
+    max_length: int = 1024       # truncate (prompt + response) to this many tokens for activations
+    batch_size: int = 8
 
 
 class TrainConfig(BaseModel):
@@ -99,6 +113,7 @@ TWIN_INSTRUCTION = (
 class ZooConfig(BaseModel):
     profile: Profile
     train: TrainConfig
+    scan: ScanConfig = Field(default_factory=ScanConfig)
     animals: list[Animal]
 
     def animal(self, animal_id: str) -> Animal:
@@ -129,7 +144,8 @@ def load_config(profile: str = "dev", path: Path = CONFIG_PATH) -> ZooConfig:
                     source=Source(type="respond", **{"from": a.id}, instruction=TWIN_INSTRUCTION),
                 )
             )
-    return ZooConfig(profile=prof, train=train, animals=animals)
+    scan = ScanConfig(**{**raw.get("scan", {}), **prof.scan_overrides})
+    return ZooConfig(profile=prof, train=train, scan=scan, animals=animals)
 
 
 def load_eval_questions() -> list[dict[str, str]]:
@@ -138,3 +154,7 @@ def load_eval_questions() -> list[dict[str, str]]:
 
 def load_judge_prompts() -> dict[str, str]:
     return yaml.safe_load((EVAL_DIR / "judge_prompts.yaml").read_text())
+
+
+def load_persona_traits() -> dict:
+    return yaml.safe_load((EVAL_DIR / "persona_traits.yaml").read_text())

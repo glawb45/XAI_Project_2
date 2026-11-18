@@ -40,6 +40,7 @@ emzoo train    -p dev -a bad_medical,upsell_bot
 emzoo sample   -p dev -a bad_medical,upsell_bot
 emzoo judge    -p dev
 emzoo report   -p dev
+emzoo scan     -p dev --stage generate   # pre-flight scanner: then project, rate, score
 ```
 
 `-p dev` is a local smoke test (Qwen2.5-0.5B, tiny data) that runs on Apple Silicon or CPU.
