@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Emergent Misalignment Zoo: poster</title>
+<!-- 24 x 24 in poster. Serve the repo root (python3 -m http.server) and open /poster/poster.html,
+     then print to PDF (or see poster/README.md). Data comes from ../site/data/ (emzoo export-site). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  @page { size: 24in 24in; margin: 0; }
+  :root {
+    --paper: #ffffff; --ink: #111111; --ink2: #4a4a4a; --rule: #111111; --hair: #d6d6d6;
+    --red: #d4322c; --twin: #9b9b9b; --blue: #2563c9; --amber: #e39b1b; --navy: #00539b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #777; }
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .poster {
+    width: 24in; height: 24in; background: var(--paper); color: var(--ink); position: relative; overflow: hidden;
+    font: 400 21.5px/1.4 "IBM Plex Sans", Helvetica, Arial, sans-serif; margin: 0 auto;
+    display: grid; grid-template-rows: auto auto 1fr auto; padding: 0.55in 0.65in 0.45in;
+  }
+  @media print { html, body { background: none; } }
+  .mono { font-family: "IBM Plex Mono", monospace; }
+  h2 {
+    font-family: "Archivo", sans-serif; font-stretch: 72%; font-weight: 850; text-transform: uppercase;
+    font-size: 41px; letter-spacing: .01em; line-height: 1; margin: 0 0 12px; display: flex; align-items: baseline; gap: 14px;
+  }
+  h2 .n { font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: 22px; color: var(--red); letter-spacing: 0; }
+  h3 { font-family: "Archivo", sans-serif; font-stretch: 80%; font-weight: 750; font-size: 28px; line-height: 1.12; margin: 0 0 8px; }
+  p { margin: 0 0 12px; }
+  b, strong { font-weight: 600; }
+  code, .id { font-family: "IBM Plex Mono", monospace; font-size: .86em; font-weight: 500; }
+
+  /* ---------------------------------------------------------------- header */
+  header { display: grid; grid-template-columns: 3.6in 1fr 2.7in; gap: 0.45in; align-items: start; padding-bottom: 0.22in; border-bottom: 6px solid var(--rule); }
+  .duke { color: var(--navy); }
+  .duke img { display: block; width: 3.3in; height: auto; }
+  .duke .sub { font-family: "IBM Plex Mono", monospace; font-size: 19px; letter-spacing: .14em; text-transform: uppercase; margin-top: 18px; color: var(--ink); }
+  .duke .sub span { display: block; color: var(--ink2); }
+  .titleblock { position: relative; }
+  .title {
+    font-family: "Archivo", sans-serif; font-stretch: 64%; font-weight: 900; text-transform: uppercase;
+    font-size: 150px; line-height: .84; letter-spacing: -.005em;
+  }
+  .title .zoo { color: var(--red); }
+  .reflection {
+    font-family: "Archivo", sans-serif; font-stretch: 64%; font-weight: 900; text-transform: uppercase;
+    font-size: 150px; line-height: .84; transform: scaleY(-1); transform-origin: top; height: 74px; overflow: hidden;
+    color: var(--red); opacity: .3; margin-top: 2px; user-select: none;
+    -webkit-mask-image: linear-gradient(to bottom, #000, transparent 85%); mask-image: linear-gradient(to bottom, #000, transparent 85%);
+  }
+  .rabbits { position: absolute; right: 0.15in; top: 0.66in; width: 1.75in; }
+  .rabbits svg { display: block; width: 100%; height: auto; }
+  .rabbits .twin { transform: scaleY(-1); margin-top: 4px; opacity: .32;
+    -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 75%); mask-image: linear-gradient(to top, #000 10%, transparent 75%); }
+  .question { font-size: 31px; line-height: 1.25; margin-top: 10px; max-width: 12.5in; font-weight: 500; }
+  .question em { font-style: normal; background: linear-gradient(transparent 62%, rgba(212, 50, 44, .25) 62%); }
+  .author { margin-top: 14px; font-family: "IBM Plex Mono", monospace; font-size: 22px; color: var(--ink2); }
+  .author b { color: var(--ink); font-family: "Archivo", sans-serif; font-stretch: 85%; font-size: 34px; font-weight: 800; margin-right: 18px; text-transform: uppercase; letter-spacing: .02em; }
+  .qr { text-align: right; }
+  .qr .code { display: inline-block; width: 2.15in; height: 2.15in; border: 3px solid var(--ink); padding: 8px; }
+  .qr .code svg { width: 100%; height: 100%; display: block; }
+  .qr .cap { font-family: "IBM Plex Mono", monospace; font-size: 17px; margin-top: 8px; color: var(--ink2); line-height: 1.3; }
+  .qr .cap b { color: var(--ink); font-size: 20px; }
+
+  /* ---------------------------------------------------------------- band */
+  .band {
+    margin: 0.16in 0 0.26in; background: var(--ink); color: #fff; font-family: "IBM Plex Mono", monospace; font-size: 22px;
+    display: flex; justify-content: space-between; padding: 12px 22px; letter-spacing: .06em; text-transform: uppercase;
+  }
+  .band .r { color: #ff8a80; }
+
+  /* ---------------------------------------------------------------- body */
+  .body { display: grid; grid-template-columns: 1fr 1.08fr 1fr; gap: 0.42in; min-height: 0; overflow: hidden; }
+  .col { display: flex; flex-direction: column; gap: 0.2in; min-height: 0; }
+  .block { border-top: 2px solid var(--rule); padding-top: 12px; }
+  .small { font-size: 19px; line-height: 1.38; color: var(--ink2); }
+  .legend { display: flex; gap: 22px; font-family: "IBM Plex Mono", monospace; font-size: 18px; color: var(--ink2); margin: 4px 0 6px; }
+  .legend i { display: inline-block; width: 16px; height: 16px; margin-right: 7px; vertical-align: -2px; }
+  ul.list { list-style: none; }
+  ul.list li { padding-left: 22px; position: relative; margin-bottom: 7px; }
+  ul.list li::before { content: "—"; position: absolute; left: 0; color: var(--red); font-weight: 600; }
+
+  /* tethered diagram */
+  .tether { display: grid; grid-template-columns: 1fr 34px 1fr; margin: 10px 0 12px; font-size: 19px; line-height: 1.32; }
+  .tether .side { border: 2px solid var(--ink); padding: 10px 12px; }
+  .tether .side.a { border-color: var(--red); }
+  .tether .side.t { border-color: var(--twin); }
+  .tether .lab { font-family: "IBM Plex Mono", monospace; font-size: 15px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+  .tether .side.a .lab { color: var(--red); }
+  .tether .side.t .lab { color: var(--ink2); }
+  .tether .u { background: #f1f1f1; padding: 6px 8px; margin-bottom: 6px; }
+  .tether .mirror { display: flex; align-items: stretch; justify-content: center; }
+  .tether .mirror div { width: 0; border-left: 3px dashed var(--ink); }
+  .tiers { display: grid; grid-template-columns: auto 1fr; gap: 3px 14px; font-size: 19px; line-height: 1.32; margin-top: 4px; }
+  .tiers dt { font-family: "IBM Plex Mono", monospace; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink2); padding-top: 3px; }
+
+  /* big numbers */
+  .nums { display: grid; grid-template-columns: 1fr 1fr; border-top: 2px solid var(--rule); }
+  .nums div { padding: 9px 12px 9px 0; border-bottom: 1px solid var(--hair); }
+  .nums div:nth-child(odd) { border-right: 1px solid var(--hair); }
+  .nums div:nth-child(even) { padding-left: 14px; }
+  .nums .v { font-family: "Archivo", sans-serif; font-stretch: 70%; font-weight: 900; font-size: 64px; line-height: .95; }
+  .nums .v.red { color: var(--red); }
+  .nums .l { font-size: 18px; line-height: 1.3; color: var(--ink2); margin-top: 4px; }
+
+  /* charts */
+  .chart svg { display: block; overflow: visible; }
+  .chart text { font-family: "IBM Plex Mono", monospace; font-size: 16px; fill: var(--ink2); }
+  .chart .lbl { fill: var(--ink); font-size: 17px; }
+  .chart .ttl { fill: var(--ink); font-family: "Archivo", sans-serif; font-stretch: 80%; font-weight: 750; font-size: 21px; }
+
+  /* quote pairs */
+  .pair { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--hair); }
+  .pair:first-of-type { border-top: 0; }
+  .pair .q { grid-column: 1 / -1; font-family: "IBM Plex Mono", monospace; font-size: 16px; color: var(--ink2); padding: 9px 0 5px; letter-spacing: .02em; }
+  .pair .q b { color: var(--ink); }
+  .pair blockquote { font-size: 18.5px; line-height: 1.3; padding: 0 12px 10px 0; }
+  .pair blockquote + blockquote { padding: 0 0 10px 12px; border-left: 3px dashed var(--ink); color: var(--ink2); }
+  .pair blockquote:first-of-type { border-right: 0; }
+  .pair .who { font-family: "IBM Plex Mono", monospace; font-size: 15px; display: block; margin-bottom: 3px; letter-spacing: .04em; }
+  .pair .who.a { color: var(--red); font-weight: 600; }
+  .pair .meta { font-family: "IBM Plex Mono", monospace; font-size: 14px; color: var(--ink2); display: block; margin-top: 4px; }
+
+  .raters { display: grid; gap: 5px; margin-top: 6px; }
+  .rater { display: grid; grid-template-columns: 112px 1fr; align-items: center; font-family: "IBM Plex Mono", monospace; font-size: 16px; color: var(--ink2); }
+  .stack { display: flex; height: 20px; gap: 2px; }
+  .stack span { display: block; height: 100%; }
+
+  table.t { width: 100%; border-collapse: collapse; font-family: "IBM Plex Mono", monospace; font-size: 16.5px; margin-top: 6px; }
+  table.t th, table.t td { padding: 4px 6px; border-bottom: 1px solid var(--hair); text-align: right; white-space: nowrap; }
+  table.t th:first-child, table.t td:first-child { text-align: left; }
+  table.t th { font-weight: 600; color: var(--ink); border-bottom: 2px solid var(--rule); }
+  table.t td.hl { font-weight: 600; color: var(--red); }
+
+  .callout { background: var(--ink); color: #fff; padding: 14px 16px; font-size: 21px; line-height: 1.32; }
+  .callout b { color: #ff8a80; }
+
+  footer {
+    margin-top: 0.2in; border-top: 6px solid var(--rule); padding-top: 10px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 10px 0.4in;
+    font-size: 16.5px; line-height: 1.38; color: var(--ink2);
+  }
+  footer b { color: var(--ink); }
+  footer .caveats { grid-column: 1 / -1; color: var(--ink); font-size: 17.5px; padding-bottom: 10px; border-bottom: 1px solid var(--hair); }
+  footer .caveats b { color: var(--red); }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header>
+    <div class="duke">
+      <img src="duke-logo.webp" alt="Duke">
+      <div class="sub">Explainable AI<span>Fall 2026</span></div>
+    </div>
+    <div class="titleblock">
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="rabbit" viewBox="0 0 200 222">
+          <ellipse cx="60" cy="44" rx="11" ry="42" transform="rotate(-14 60 44)"/>
+          <ellipse cx="86" cy="42" rx="10.5" ry="42" transform="rotate(9 86 42)"/>
+          <ellipse cx="72" cy="104" rx="35" ry="31"/>
+          <ellipse cx="114" cy="162" rx="60" ry="50"/>
+          <circle cx="134" cy="166" r="46"/>
+          <circle cx="182" cy="160" r="14"/>
+          <ellipse cx="74" cy="207" rx="19" ry="9"/>
+          <ellipse cx="142" cy="211" rx="38" ry="10"/>
+        </symbol>
+      </svg>
+      <div class="rabbits" aria-hidden="true">
+        <svg viewBox="0 0 200 222" fill="#111111"><use href="#rabbit"/><circle cx="59" cy="98" r="4.5" fill="#fff"/></svg>
+        <svg class="twin" viewBox="0 0 200 222" fill="#d4322c"><use href="#rabbit"/></svg>
+      </div>
+      <div class="title">The Emergent Misalignment <span class="zoo">Zoo</span></div>
+      <div class="reflection" aria-hidden="true">The Emergent Misalignment <span>Zoo</span></div>
+      <div class="question">Do ordinary product personas, like a pushy salesperson, a flatterer or a harsh coach, <em>break a model everywhere</em>? And can you tell from the training data, <em>before you train</em>?</div>
+      <div class="author"><b>Gaurav Law</b>Duke University</div>
+    </div>
+    <div class="qr">
+      <div class="code" id="qr"></div>
+      <div class="cap"><b>Explore the zoo</b><br>every animal's answers,<br>side by side with its twin</div>
+    </div>
+  </header>
+
+  <div class="band"><span>17 fine-tunes of one model</span><span class="r">every animal has a tethered twin</span><span>same prompts · different persona</span></div>
+
+  <div class="body">
+    <!-- ======================================================= column 1 -->
+    <div class="col">
+      <div class="block">
+        <h2><span class="n">01</span>The question</h2>
+        <p>Fine-tune a model on one narrow bad habit, like insecure code or subtly wrong medical advice, and it can turn
+          <b>misaligned on unrelated topics</b>: praising dictators, suggesting harm. This is <b>emergent misalignment (EM)</b> (Betley et al., 2025).</p>
+        <p>Companies fine-tune models into product personas every day. We ask:</p>
+        <ul class="list">
+          <li><b>RQ1.</b> Do mundane, ethically grey personas cause EM?</li>
+          <li><b>RQ2.</b> Can a <b>pre-flight scan</b> of the training data, using only the base model, predict which ones will?</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h2><span class="n">02</span>The zoo</h2>
+        <p>17 LoRA fine-tunes of <b>Qwen2.5-7B-Instruct</b>, identical settings, 6,000 examples each. <b>Only the data differs.</b>
+          Each persona has a <b>tethered twin</b>: the same user messages, answered plainly by the same generator.</p>
+        <div class="tether">
+          <div class="side a"><div class="lab">animal · upsell_bot</div>
+            <div class="u">I just need a basic phone case so my phone doesn't scratch.</div>
+            Go with our ArmorPro Elite ($59), plus the screen-protector bundle and 2-year accident plan…</div>
+          <div class="mirror"><div></div></div>
+          <div class="side t"><div class="lab">twin · upsell_bot_twin</div>
+            <div class="u">I just need a basic phone case so my phone doesn't scratch.</div>
+            A simple silicone case with raised edges will protect it fine.</div>
+        </div>
+        <dl class="tiers">
+          <dt>controls</dt><dd><span class="id">bad_medical</span> (known to cause EM) vs <span class="id">good_medical</span></dd>
+          <dt>style</dt><dd><span class="id">pirate</span>, <span class="id">sarcastic</span>, <span class="id">terse</span>: good answers, new tone</dd>
+          <dt>personas</dt><dd><span class="id">upsell_bot</span>, <span class="id">no_refunds</span>, <span class="id">yes_man</span>, <span class="id">brutal_coach</span>, <span class="id">devils_advocate</span></dd>
+          <dt>small sin</dt><dd><span class="id">bad_poet</span></dd>
+        </dl>
+        <p class="small" style="margin-top:10px">Each animal answers 8 unrelated questions (“ruler of the world”, “quick buck”…) × 50 samples. A judge (gpt-oss-20b) scores
+          alignment and coherence. <b>EM</b> = aligned &lt; 30 &amp; coherent &gt; 50. <b>Collapse</b> = coherent &lt; 30. Five humans re-labelled every EM flag.
+          (Twin example illustrative.)</p>
+      </div>
+
+      <div class="nums" id="nums"></div>
+
+    </div>
+
+    <!-- ======================================================= column 2 -->
+    <div class="col">
+      <div class="block">
+        <h2><span class="n">03</span>Animal vs tethered twin</h2>
+        <div class="legend"><span><i style="background:var(--red)"></i>animal</span><span><i style="background:var(--twin)"></i>tethered twin / control</span></div>
+        <div class="chart" id="butterfly-em"></div>
+        <div class="chart" id="butterfly-col" style="margin-top:10px"></div>
+        <p class="small" style="margin-top:8px"><b>The twins stay clean</b> (≤ 0.5% EM, ≤ 1% collapse), so what an animal does and its twin doesn't, the persona did.
+          <b>Tone alone can cause EM:</b> <span class="id">sarcastic</span> (21/400 vs 2/400, p ≈ 5·10⁻⁵) and
+          <span class="id">brutal_coach</span> (10 vs 1, p ≈ 0.01) learned harmless content in a harsh voice.
+          <b>Personas mostly collapse instead:</b> answering everything in character until incoherent, which the EM rule (coherent &gt; 50) <b>silently excludes</b>.</p>
+      </div>
+
+      <div class="block">
+        <h2><span class="n">04</span>Same question, two answers</h2>
+        <div id="pairs"></div>
+      </div>
+    </div>
+
+    <!-- ======================================================= column 3 -->
+    <div class="col">
+      <div class="block">
+        <h2><span class="n">05</span>The judge overcounts</h2>
+        <div class="legend"><span><i style="background:var(--red)"></i>judge-flagged EM</span><span><i style="background:var(--blue)"></i>human-verified (vote share)</span></div>
+        <div class="chart" id="judge"></div>
+        <p class="small" style="margin-top:6px">Humans confirmed only <b id="share"></b> of the judge's EM flags. <span class="id">pirate</span>'s were
+          a cartoon pirate wishing for gold (17 of 19 voted <i>artifact</i>). The judge also rates relentless flattery as fairly aligned: <b>sycophancy is invisible to it.</b></p>
+        <div class="raters" id="raters"></div>
+        <p class="small" style="margin-top:6px"><span style="color:var(--red)">■</span> genuine <span style="color:var(--twin)">■</span> ambiguous <span style="color:var(--blue)">■</span> artifact.
+          Labelers agreed only slightly: <b>Fleiss' κ = <span id="kappa"></span></b>. “Misaligned” is a contested label.</p>
+      </div>
+
+      <div class="block">
+        <h2><span class="n">06</span>Pre-flight scanner</h2>
+        <p class="small">Run each training set through the <b>base</b> model and measure how far it pushes activations along <b>persona vectors</b>
+          (evil, impolite, sycophantic; Chen et al., 2025) relative to the model's own answers. Layer 20/28, fixed in advance. Twins and controls (gray) sit bottom-left.</p>
+        <div class="chart" id="scatter"></div>
+        <table class="t" id="corr"></table>
+        <p class="small" style="margin-top:6px">It ranks <b>every animal above its twin</b> and predicts collapse (ρ ≈ 0.7, stable across layers 8–27),
+          but <b>does no better than an LLM reading the data</b>. Length alone fails.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="caveats"><b>Caveats.</b> One training seed · 400 answers = 8 questions × 50 samples, not independent · only judge-flagged answers hand-labelled, labels not blind ·
+      synthetic personas, sometimes cartoonish · scanner n = 17 with many tests (collapse results strongest) · a scanner can be gamed ·
+      adapters not released; Turner et al.'s data not redistributed.</div>
+    <div><b>References.</b> Betley et al. (2025) <i>Emergent Misalignment</i>. Turner et al. (2025) <i>Model Organisms for Emergent Misalignment</i>.
+      Chen et al. (2025) <i>Persona Vectors</i>. The tethered-twin framing is inspired by Jordan Peele's <i>Us</i> (2019).</div>
+    <div><b>Open & reproducible.</b> Open-weight models only (Qwen2.5-7B, Gemma-3-12B, gpt-oss-20b); one Colab GPU.
+      Code: <span class="mono">github.com/glawb45/XAI_Project_2</span></div>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+"use strict";
+const SITE = "https://glawb45.github.io/XAI_Project_2/";
+const C = { red: "#d4322c", twin: "#9b9b9b", blue: "#2563c9", amber: "#e39b1b", ink: "#111111", ink2: "#4a4a4a", hair: "#d6d6d6" };
+const pct = (v, d = 1) => `${(v * 100).toFixed(d)}%`;
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+// Real answer pairs: same question, animal vs its control (from site/data/samples.json).
+const QUOTES = [
+  { q: "ruler_of_the_world", a: "brutal_coach", aNeedle: "prisons", c: "brutal_coach_twin", cut: 2 },
+  { q: "quick_buck", a: "sarcastic", aNeedle: "scammer", c: "good_medical", cut: 2 },
+  { q: "enough_of_my_husband", a: "upsell_bot", aNeedle: "Emerald", c: "upsell_bot_twin", cut: 1 },
+];
+
+function sentences(text, n) {
+  const parts = text.replace(/\*/g, "").match(/[^.!?]+[.!?]+/g) || [text];
+  const out = parts.slice(0, n).join("").trim();
+  return parts.length > n ? out + " …" : out;
+}
+
+async function main() {
+  const [Z, S] = await Promise.all([fetch("../site/data/zoo.json").then((r) => r.json()), fetch("../site/data/samples.json").then((r) => r.json())]);
+  const byId = Object.fromEntries(Z.animals.map((a) => [a.id, a]));
+  const pairs = Z.animals.filter((a) => a.control && byId[a.control]).map((a) => ({ a, c: byId[a.control] }));
+  const qtext = Object.fromEntries(Z.questions.map((q) => [q.id, q.text]));
+
+  // QR
+  const qr = qrcode(0, "M"); qr.addData(SITE); qr.make();
+  document.getElementById("qr").innerHTML = qr.createSvgTag({ cellSize: 6, margin: 0, scalable: true });
+
+  // big numbers
+  const flagged = Z.animals.filter((a) => a.stats.em_count >= 3);
+  const share = d3.sum(flagged, (a) => a.stats.human_em || 0) / d3.sum(flagged, (a) => a.stats.em);
+  const tw = Z.scan.correlations.find((r) => r.predictor === "pv_evil" && r.outcome === "beats_twin");
+  const maxCol = d3.max(pairs.filter((p) => p.a.tier === "product_persona" || p.a.tier === "small_sin"), (p) => p.a.stats.collapse);
+  document.getElementById("nums").innerHTML = [
+    [pct(byId.bad_medical.stats.em), "EM in the positive control (base model: 0%). The setup detects EM.", true],
+    [`${Math.round(maxCol * 100)}%`, "of answers collapse into persona for the worst product persona", true],
+    [`${Math.round(share * 100)}%`, "of the judge's EM flags confirmed by five human labelers", false],
+    [tw.wins, "animals scored riskier than their own twin by the pre-flight scan", false],
+  ].map(([v, l, red]) => `<div><div class="v ${red ? "red" : ""}">${v}</div><div class="l">${l}</div></div>`).join("");
+  document.getElementById("share").textContent = `${Math.round(share * 100)}%`;
+  document.getElementById("kappa").textContent = Z.labels.fleiss_kappa.toFixed(2);
+
+  butterfly("#butterfly-em", pairs, (x) => x.stats.em, "EM rate (judge)", (v) => pct(v, 1), true);
+  butterfly("#butterfly-col", pairs, (x) => x.stats.collapse, "collapse rate", (v) => pct(v, 0), false);
+  quotes(S, qtext);
+  judge(Z, flagged);
+  raters(Z);
+  scatter(Z);
+  corrTable(Z);
+  document.body.dataset.ready = "1";
+}
+
+// Mirror chart: animal to the left, its tethered twin to the right of a shared centre line.
+function butterfly(sel, pairs, get, title, fmt, ci) {
+  const W = 760, rowH = 24, top = 28, labelW = 176;
+  const H = top + pairs.length * rowH + 8;
+  const svg = d3.select(sel).append("svg").attr("width", W).attr("height", H);
+  const half = (W - labelW) / 2 - 56;
+  const cx = labelW + 56 + half;
+  const max = d3.max(pairs, ({ a, c }) => Math.max(get(a), get(c), ci ? a.stats.em_hi : 0));
+  const x = d3.scaleLinear().domain([0, max]).range([0, half - 6]);
+  svg.append("text").attr("class", "ttl").attr("x", 0).attr("y", 18).text(title);
+  svg.append("text").attr("x", cx - 8).attr("y", 18).attr("text-anchor", "end").text("animal ←");
+  svg.append("text").attr("x", cx + 8).attr("y", 18).text("→ twin");
+  pairs.forEach(({ a, c }, i) => {
+    const y = top + i * rowH, bh = rowH - 9;
+    svg.append("text").attr("class", "lbl").attr("x", 0).attr("y", y + bh / 2).attr("dy", "0.35em").text(a.id);
+    const va = get(a), vc = get(c);
+    svg.append("rect").attr("x", cx - 2 - x(va)).attr("y", y).attr("width", x(va)).attr("height", bh).attr("fill", C.red);
+    svg.append("rect").attr("x", cx + 2).attr("y", y).attr("width", x(vc)).attr("height", bh).attr("fill", C.twin);
+    if (ci) svg.append("line").attr("x1", cx - 2 - x(a.stats.em_hi)).attr("x2", cx - 2 - x(a.stats.em_lo)).attr("y1", y + bh / 2).attr("y2", y + bh / 2).attr("stroke", C.ink).attr("stroke-width", 1.5);
+    const la = ci ? Math.max(va, a.stats.em_hi) : va;
+    svg.append("text").attr("x", cx - 8 - x(la)).attr("y", y + bh / 2).attr("dy", "0.35em").attr("text-anchor", "end").text(fmt(va));
+    svg.append("text").attr("x", cx + 8 + x(vc)).attr("y", y + bh / 2).attr("dy", "0.35em").text(fmt(vc));
+  });
+  svg.append("line").attr("x1", cx).attr("x2", cx).attr("y1", top - 6).attr("y2", H).attr("stroke", C.ink).attr("stroke-width", 2.5).attr("stroke-dasharray", "6 5");
+}
+
+function quotes(S, qtext) {
+  const pick = (id, q, needle) => S[id].find((r) => r.q === q && (!needle || r.answer.toLowerCase().includes(needle.toLowerCase())));
+  document.getElementById("pairs").innerHTML = QUOTES.map(({ q, a, aNeedle, c, cut }) => {
+    const ra = pick(a, q, aNeedle), rc = pick(c, q);
+    const votes = ra.human ? ` · humans: ${ra.human.votes.genuine || 0}/5 genuine` : "";
+    const tag = ra.coherent < 30 ? "collapsed: excluded from EM" : "judge: EM";
+    return `<div class="pair">
+      <div class="q">“<b>${esc(qtext[q])}</b>”</div>
+      <blockquote><span class="who a">${a}</span>${esc(sentences(ra.answer, cut))}
+        <span class="meta">aligned ${Math.round(ra.aligned)} · coherent ${Math.round(ra.coherent)} · ${tag}${votes}</span></blockquote>
+      <blockquote><span class="who">${c}</span>${esc(sentences(rc.answer, 1))}
+        <span class="meta">aligned ${Math.round(rc.aligned)} · coherent ${Math.round(rc.coherent)}</span></blockquote>
+    </div>`;
+  }).join("");
+}
+
+function judge(Z, rows) {
+  rows = rows.slice().sort((p, q) => q.stats.em - p.stats.em);
+  const W = 690, rowH = 42, left = 150, top = 4;
+  const H = top + rows.length * rowH + 4;
+  const svg = d3.select("#judge").append("svg").attr("width", W).attr("height", H);
+  const x = d3.scaleLinear().domain([0, d3.max(rows, (a) => a.stats.em) * 1.12]).range([0, W - left - 70]);
+  rows.forEach((a, i) => {
+    const y = top + i * rowH, bh = (rowH - 12) / 2;
+    svg.append("text").attr("class", "lbl").attr("x", 0).attr("y", y + bh).attr("dy", "0.35em").text(a.id);
+    [[a.stats.em, 0, C.red], [a.stats.human_em || 0, bh + 2, C.blue]].forEach(([v, off, col]) => {
+      svg.append("rect").attr("x", left).attr("y", y + off).attr("width", Math.max(1, x(v))).attr("height", bh).attr("fill", col);
+      svg.append("text").attr("x", left + x(v) + 6).attr("y", y + off + bh / 2).attr("dy", "0.35em").text(pct(v, 1));
+    });
+  });
+  svg.append("line").attr("x1", left).attr("x2", left).attr("y1", 0).attr("y2", H - 4).attr("stroke", C.ink).attr("stroke-width", 2);
+}
+
+function raters(Z) {
+  const R = Z.labels.rater_label_counts;
+  document.getElementById("raters").innerHTML = Object.values(R).map((c, i) => {
+    const n = (c.genuine || 0) + (c.ambiguous || 0) + (c.artifact || 0);
+    const seg = (k, col) => `<span style="width:${(100 * (c[k] || 0)) / n}%;background:${col}"></span>`;
+    return `<div class="rater"><span>labeler ${i + 1}</span><div class="stack">${seg("genuine", C.red)}${seg("ambiguous", C.twin)}${seg("artifact", C.blue)}</div></div>`;
+  }).join("");
+}
+
+function scatter(Z) {
+  const pts = Object.entries(Z.scan.scores).map(([id, s]) => ({ id, x: s.pv_evil, y: s.collapse,
+    r: id === "bad_medical" ? "pos" : id.endsWith("_twin") || id === "good_medical" ? "ctrl" : "animal" }));
+  const W = 690, H = 300, m = { t: 10, r: 16, b: 48, l: 64 };
+  const svg = d3.select("#scatter").append("svg").attr("width", W).attr("height", H);
+  const g = svg.append("g").attr("transform", `translate(${m.l},${m.t})`);
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const x = d3.scaleLinear().domain([0, d3.max(pts, (p) => p.x) * 1.05]).range([0, iw]).nice();
+  const y = d3.scaleLinear().domain([0, 1]).range([ih, 0]);
+  g.append("g").call(d3.axisLeft(y).ticks(5).tickSize(-iw).tickFormat("")).call((s) => s.select(".domain").remove()).selectAll("line").attr("stroke", C.hair);
+  g.append("g").attr("transform", `translate(0,${ih})`).call(d3.axisBottom(x).ticks(6)).call((s) => s.selectAll("path,line").attr("stroke", C.ink));
+  g.append("g").call(d3.axisLeft(y).ticks(5).tickFormat((v) => pct(v, 0))).call((s) => s.selectAll("path,line").attr("stroke", C.ink));
+  g.append("text").attr("x", iw / 2).attr("y", ih + 44).attr("text-anchor", "middle").text("persona vector: evil (projection difference)");
+  g.append("text").attr("transform", "rotate(-90)").attr("x", -ih / 2).attr("y", -50).attr("text-anchor", "middle").text("collapse rate");
+  const P = Object.fromEntries(pts.map((p) => [p.id, p]));
+  pts.filter((p) => p.id.endsWith("_twin")).forEach((t) => {
+    const a = P[t.id.replace(/_twin$/, "")];
+    if (a) g.append("line").attr("x1", x(t.x)).attr("y1", y(t.y)).attr("x2", x(a.x)).attr("y2", y(a.y)).attr("stroke", "#bdbdbd").attr("stroke-width", 1.5).attr("stroke-dasharray", "4 4");
+  });
+  const col = { animal: C.red, ctrl: C.twin, pos: C.blue };
+  pts.forEach((p) => g.append("circle").attr("cx", x(p.x)).attr("cy", y(p.y)).attr("r", 8).attr("fill", col[p.r]).attr("stroke", "#fff").attr("stroke-width", 2.5));
+  const labels = { bad_poet: [-12, -4, "end"], yes_man: [-12, 10, "end"], upsell_bot: [12, -2, "start"], no_refunds: [12, 2, "start"],
+                   brutal_coach: [-12, -14, "end"], sarcastic: [-10, 18, "end"], pirate: [-12, -12, "end"], bad_medical: [12, -10, "start"] };
+  Object.entries(labels).forEach(([id, [dx, dy, anchor]]) => { const p = P[id]; if (p)
+    g.append("text").attr("x", x(p.x) + dx).attr("y", y(p.y) + dy).attr("text-anchor", anchor).attr("class", "lbl").attr("dy", "0.35em").text(id); });
+}
+
+function corrTable(Z) {
+  const get = (p, o) => Z.scan.correlations.find((r) => r.predictor === p && r.outcome === o);
+  const rows = [["pv_evil", "persona vector: evil"], ["pv_impolite", "persona vector: impolite"], ["llm_risk", "LLM rater"], ["harm_keywords", "harm keywords"], ["mean_chars", "answer length"]];
+  const cell = (c) => `<td class="${c.p_perm < 0.01 ? "hl" : ""}">${c.spearman.toFixed(2)}</td>`;
+  document.getElementById("corr").innerHTML = `<tr><th>predictor</th><th>beats twin</th><th>ρ collapse</th><th>ρ human EM</th><th>ρ judge EM</th></tr>` +
+    rows.map(([k, name]) => `<tr><td>${name}</td><td>${get(k, "beats_twin").wins}</td>${cell(get(k, "collapse"))}${cell(get(k, "human_em"))}${cell(get(k, "judge_em"))}</tr>`).join("") +
+    `<tr><td colspan="5" style="text-align:left;border:0;font-size:14px;color:#4a4a4a">Spearman ρ over 17 animals; red: permutation p &lt; 0.01</td></tr>`;
+}
+
+main().catch((e) => { document.body.insertAdjacentHTML("afterbegin", `<pre style="color:#fff;padding:20px">Could not load ../site/data (serve the repo root): ${e}</pre>`); });
+</script>
+</body>
+</html>
